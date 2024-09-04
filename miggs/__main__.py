@@ -14,7 +14,7 @@ def parse_args():
     parser.add_argument('--output', '-o', default='output', help='The output directory')
     parser.add_argument('--force-overwrite', '-f', action='store_true', help='Force overwrite of the output directory. Previous data will be lost')
     
-    parser.add_argument('--bindir', '-b', default='/home/yoann/Projects/bioinfo/pangenome_coordinates/bin', help='The directory containing the executables')
+    parser.add_argument('--bindir', '-b', default=None, help='The directory containing the executables. If not set, suppose that the executables are in the PATH')
     
     return parser.parse_args()
 

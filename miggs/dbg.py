@@ -6,8 +6,12 @@ from miggs.run_cmds import run_cmd
 class DBG:
     def __init__(self, tmp_dir, output, bindir):
         # Binaries
-        self.ggcat = path.abspath(path.join(bindir, 'ggcat', 'target', 'release', 'ggcat'))
-        self.sshash = path.abspath(path.join(bindir, 'sshash', 'build', 'sshash'))
+        if bindir is None:
+            self.ggcat = 'ggcat'
+            self.sshash = 'sshash'
+        else:
+            self.ggcat = path.abspath(path.join(bindir, 'ggcat', 'target', 'release', 'ggcat'))
+            self.sshash = path.abspath(path.join(bindir, 'sshash', 'build', 'sshash'))
         # Data directories
         self.tmp_dir = tmp_dir
         self.output = path.join(output, 'dbg')
@@ -15,7 +19,7 @@ class DBG:
         
     def construct(self, input_fasta, dry_run=False):
         # Construct the De Bruijn graph
-        run_cmd(f'{self.ggcat} build -k 31 -e -s 1 --threads-count 8 --keep-temp-files -o {path.join(self.output, "ggcat.fa")} -l {input_fasta} --temp-dir {self.tmp_dir}', dry_run=dry_run)
+        run_cmd(f'{self.ggcat} build -k 31 -e -s 1 --threads-count 8 -c --keep-temp-files -o {path.join(self.output, "ggcat.fa")} -l {input_fasta} --temp-dir {self.tmp_dir}', dry_run=dry_run)
         
         # index the kmers
         run_cmd(f'{self.sshash} build -i {path.join(self.output, "ggcat.fa")} -k 31 -m 21 -o {path.join(self.output, "ggcat.sshash")} -d {self.tmp_dir} --verbose', dry_run=dry_run)
