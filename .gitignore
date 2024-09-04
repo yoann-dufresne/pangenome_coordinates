@@ -1,6 +1,9 @@
 # Project related
 .register
+logs/
 data/
+bin/
+output/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
